@@ -5,6 +5,11 @@
 npm init vite frontend
 ```
 
+# Vue Router
+```bash 
+npm i vue-router
+```
+
 # Vue with typescript
 ```bash
 npm install @types/vue --save-dev

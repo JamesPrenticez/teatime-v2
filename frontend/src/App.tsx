@@ -1,10 +1,10 @@
-import { defineComponent, computed } from 'vue';
-import { useStore } from 'vuex';
+import { defineComponent } from 'vue';
 
 import {
   Counter,
   Hello
 } from './components'
+import { RouterView } from 'vue-router';
 
 export default defineComponent({
   name: 'App',
@@ -12,21 +12,11 @@ export default defineComponent({
     Counter,
     Hello,
   },
-  setup() {
-    const store = useStore();
-    const user = computed(() => store.state.user.data);
-    const name = user.value.name
-
-    return {
-      name,
-    };
-  },
   render() {
     return (
       <div>
-        <h1>{this.name}</h1>
-        <Counter />
         <Hello msg="Hello" />
+        <RouterView />
       </div>
     );
   },
