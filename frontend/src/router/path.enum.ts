@@ -3,5 +3,8 @@ export enum Path {
   
   // Auth
   LOGIN = '/login',
-  REGISTER = '/register'
+  REGISTER = '/register',
+
+  // Features
+  DASHBOARD = '/dashboard',
 }

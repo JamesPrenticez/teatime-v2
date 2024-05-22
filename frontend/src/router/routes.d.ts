@@ -3,11 +3,3 @@ export type IRoute = {
   name: string;
   component: any;
 }
-
-export enum Path {
-  HOME = '/',
-  
-  // Auth
-  LOGIN = '/login',
-  REGISTER = '/register'
-}

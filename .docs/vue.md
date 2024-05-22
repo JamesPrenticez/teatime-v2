@@ -1,36 +1,62 @@
-# Vue
-(tutorial)[https://www.youtube.com/watch?v=-bJL00w5Mig]
+# Vue 
+(tutorial)[https://youtu.be/WLQDpY7lOLg?t=1350]
 
 ```bash
-  npm i vue vue-loader
-  npm i -D @vitejs/plugin-vue
-  npm i vue-router
+npm init vite frontend
 ```
 
-Get the Vue extentions
-- vue syntax highlighting
-- vue 3 snippets
-- vue VScode snippets
-
-Update Emmet syntax settings in VScode preferences or settings.json
-```settings.json
-  "emmet.syntaxProfiles": {
-    "vue-html": "html",
-    "vue": "html"
-  },
-  "emmet.includeLanguages": {
-    "vue-html": "html",
-    "vue": "html"
-  }
+# Vue Router
+```bash 
+npm i vue-router
 ```
 
-update vite js config to include the plugin
-replace body inside the welcome.blade.php with 
-```php
-  @vite('resources/js/app.js') 
+# Vue with typescript
+```bash
+npm install @types/vue --save-dev
+npm install vue-tsc --save-dev
 ```
-create components folder in resources/js
-create app.js here too
+
+# Vue with JSX (not reccomended)
+```bash
+  npm install @vitejs/plugin-vue-jsx --save-dev
+```
+
+Then update vite.config.ts
+```ts
+  // vite.config.ts
+  import { defineConfig } from 'vite';
+  import vue from '@vitejs/plugin-vue';
+  import vueJsx from '@vitejs/plugin-vue-jsx';
+
+  export default defineConfig({
+    plugins: [vue(), vueJsx()]
+  });
+```
 
 
+Create this file in src vue-shim.d.ts
+```ts
+// vue-shim.d.ts
+declare module '*.vue' {
+  import { DefineComponent } from 'vue';
+  const component: DefineComponent<{}, {}, any>;
+  export default component;
+}
+```
 
+# Vuex (statemanagment)
+[https://vuex.vuejs.org/]
+
+Add the vuex.d.ts to src for typescript suppport 
+```ts
+// vuex.d.ts
+declare module "vuex" {
+  export * from "vuex/types/index.d.ts";
+  export * from "vuex/types/helpers.d.ts";
+  export * from "vuex/types/logger.d.ts";
+  export * from "vuex/types/vue.d.ts";
+}
+```
+
+# Vue Options API vs Composisiton API
+[https://vueschool.io/articles/vuejs-tutorials/options-api-vs-composition-api/]

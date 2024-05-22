@@ -14,8 +14,8 @@ export default defineComponent({
   },
   render() {
     return (
-      <div>
-        <Hello msg="Hello" />
+      <div className="antialiased">
+        {/* <Hello msg="Hello" /> */}
         <RouterView />
       </div>
     );

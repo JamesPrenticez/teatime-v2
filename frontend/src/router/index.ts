@@ -5,11 +5,15 @@ import { Path } from './path.enum'
 import {
   HomePage,
   LoginPage,
-  RegisterPage
+  RegisterPage,
+  DashboardPage,
 } from '../pages'
 
 const routes: IRoute[] = [
   { path: Path.HOME, name: 'home', component: HomePage },
+  { path: Path.DASHBOARD, name: 'dashboard', component: DashboardPage },
+
+
   { path: Path.LOGIN, name: 'login', component: LoginPage },
   { path: Path.REGISTER, name: 'register', component: RegisterPage },
 ];
