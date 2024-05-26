@@ -1,10 +1,12 @@
 export enum Path {
-  HOME = '/',
+  HOME = '/', // redirects to dashboard
   
   // Auth
-  LOGIN = '/login',
-  REGISTER = '/register',
+  AUTH = '/auth',
+  LOGIN = 'login',
+  REGISTER = 'register',
 
-  // Features
+  // Dashboard
   DASHBOARD = '/dashboard',
+  SURVEYS = 'surveys',
 }
