@@ -14,12 +14,13 @@ import {
   DashboardPage,
   SurveysPage,
   NotFound,
+  ProfilePage,
+  SettingsPage,
 } from '../pages'
 
 
 const routes: RouteRecordRaw[] = [
   { path: Path.HOME, name: 'home', redirect: Path.DASHBOARD },
-
   { 
     path: '',
     name: 'auth',
@@ -34,6 +35,19 @@ const routes: RouteRecordRaw[] = [
     ]
   },
   { 
+    path: Path.USER,
+    name: 'user',
+    redirect: Path.USER + "/" + Path.PROFILE,
+    meta: {
+      requiresAuth: true,
+    },
+    children: [
+      { path: Path.PROFILE, name: 'profile', component: ProfilePage },
+      { path: Path.SETTINGS, name: 'settings', component: SettingsPage },
+      { path: Path.LOGOUT, name: 'logout', redirect: Path.LOGIN }
+    ]
+  },
+  { 
     path: Path.DASHBOARD,
     name: 'dashboard-layout',
     component: Layout,
@@ -45,11 +59,7 @@ const routes: RouteRecordRaw[] = [
       { path: 'surveys', name: 'surveys', component: SurveysPage },
     ] 
   },
-  {
-    path: '/404',
-    name: 'NotFound',
-    component: NotFound
-  }
+  { path: '/404', name: 'notFound', component: NotFound },
 ];
 
 const router = createRouter({
