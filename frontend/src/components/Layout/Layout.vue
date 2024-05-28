@@ -1,34 +1,3 @@
-<script setup>
-import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
-import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/vue/24/outline'
-import { computed } from 'vue';
-import { useStore } from 'vuex';
-import { StoreMutation } from '../../store'
-import { useRouter } from 'vue-router';
-
-import me from '../../assets/me.webp'
-
-const store = useStore();
-const router = useRouter();
-
-const user = computed(() => store.state.user.data)
-
-const navigation = [
-  { name: 'Dashboard', to: {name: 'dashboard'} },
-  { name: 'Surveys', to: {name: 'surveys'} },
-]
-const userNavigation = [
-  { name: 'Your Profile', to: {name: 'profile'} },
-  { name: 'Settings', to: {name: 'settings'} },
-]
-
-function logout(){
-  store.commit(StoreMutation.LOGOUT);
-  router.push({
-    name: 'logout'
-  })
-}
-</script>
 
 <template>
   <div class="min-h-full">
@@ -180,4 +149,36 @@ function logout(){
     <router-view></router-view>
   </div>
 </template>
+
+<script setup>
+import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
+import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/vue/24/outline'
+import { computed } from 'vue';
+import { useStore } from 'vuex';
+import { StoreMutation } from '../../store'
+import { useRouter } from 'vue-router';
+
+import me from '../../assets/me.webp'
+
+const store = useStore();
+const router = useRouter();
+
+const user = computed(() => store.state.user.data)
+
+const navigation = [
+  { name: 'Dashboard', to: {name: 'dashboard'} },
+  { name: 'Surveys', to: {name: 'surveys'} },
+]
+const userNavigation = [
+  { name: 'Your Profile', to: {name: 'profile'} },
+  { name: 'Settings', to: {name: 'settings'} },
+]
+
+function logout(){
+  store.commit(StoreMutation.LOGOUT);
+  router.push({
+    name: 'logout'
+  })
+}
+</script>
 
