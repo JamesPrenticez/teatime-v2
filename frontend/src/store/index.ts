@@ -1,17 +1,22 @@
 import { createStore, Store as VuexStore } from 'vuex';
-import me from '../assets/me.webp';
+import axiosClient from '../axios/axiosClient';
+import me from '../assets/me.webp'; // TODO move to server
 
 // Define your state types
 // TODO move to models?
 interface UserData {
-  name: string;
+  created_at: string;
   email: string;
+  email_verified_at: string;
+  id: number;
+  name: string;
+  updated_at: string;
   imageUrl: string;
 }
 
 interface UserState {
   data: UserData;
-  token: number | null;
+  token: string | null;
 }
 
 interface RootState {
@@ -21,18 +26,20 @@ interface RootState {
 // Define initial state
 const state: RootState = {
   user: {
-    data: {
-      name: 'James Prentice',
-      email: 'prenticez@hotmail.co.nz',
-      imageUrl: me,
-    },
-    token: 123,
+    data: {} as UserData,
+    token: sessionStorage.getItem("TOKEN"),
   },
 };
 
 // Define mutation types
+export enum StoreActions {
+  REGISTER = 'register',
+  LOGIN = 'login',
+}
+
 export enum StoreMutation {
-  LOGOUT = 'logout',
+  LOGOUT = "logout",
+  SET_USER = "setUser"
 }
 
 // Create store
@@ -42,10 +49,38 @@ const store: VuexStore<RootState> = createStore({
     [StoreMutation.LOGOUT] (state) {
       state.user.data = {} as UserData;
       state.user.token = null;
+      sessionStorage.clear();
+    },
+    [StoreMutation.SET_USER] (state, userData) {
+      state.user.token = userData.token; // returned from php backend
+      state.user.data = userData.user;
+      state.user.data.imageUrl = me; // not sending this from server yet
+      sessionStorage.setItem('TOKEN', userData.token);
     },
   },
   getters: {},
-  actions: {},
+  actions: {
+    async [StoreActions.REGISTER] ({ commit }, user) {
+      try {
+        const { data } = await axiosClient.post('/register', user)
+        commit(StoreMutation.SET_USER, data);
+        return data; // Optional: return data if needed
+      } catch (error) {
+        console.error('Registration failed', error);
+        throw error; // Re-throw error to handle it in the component
+      }
+    },
+    async [StoreActions.LOGIN]({ commit }, user) {
+      try {
+        const { data } = await axiosClient.post('/login', user);
+        commit(StoreMutation.SET_USER, data);
+        return data;
+      } catch (error) {
+        console.error('Login failed', error);
+        throw error;
+      }
+    },
+  },
   modules: {},
 });
 
