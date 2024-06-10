@@ -155,7 +155,7 @@ import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuIt
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/vue/24/outline'
 import { computed } from 'vue';
 import { useStore } from 'vuex';
-import { StoreMutation } from '../../store'
+import { StoreActions } from '../../store'
 import { useRouter } from 'vue-router';
 
 import me from '../../assets/me.webp'
@@ -175,10 +175,11 @@ const userNavigation = [
 ]
 
 function logout(){
-  store.commit(StoreMutation.LOGOUT);
-  router.push({
-    name: 'logout'
-  })
+  store.dispatch(StoreActions.LOGOUT)
+    .then(()=>{
+      router.push({name: 'login'});
+    });
 }
+
 </script>
 

@@ -37,19 +37,19 @@ class AuthController extends Controller
   public function login(Request $request)
   {
     $credentials = $request->validate([
-      'email' => 'required|email|string|exists:users,email', // no spaces allowed
+      'email' => 'required|email|string', // no spaces allowed
       'password' => [
         'required',
       ],
       'remember' => 'boolean'
     ]);
+
     $remember = $credentials['remember'] ?? false;
     unset($credentials['remember']);
 
-    // here
-    if(!Auth::attempt($credentials, $remember)){
-      response([
-        'error' => 'Invalid email or password'
+    if (!Auth::attempt(['email' => $credentials['email'], 'password' => $credentials['password']], $remember)) {
+      return response()->json([
+          'error' => 'Invalid email or password'
       ], 422);
     }
 
@@ -59,6 +59,19 @@ class AuthController extends Controller
     return response()->json([
       'user' => $user,
       'token'=> $token
+    ]);
+  }
+
+
+  public function logout()
+  {
+    $user = Auth::user();
+    
+    // Revoke the token that was used to authenticate the current request
+    $user->currentAccessToken()->delete();
+
+    return response([
+      'success' => true
     ]);
   }
 }

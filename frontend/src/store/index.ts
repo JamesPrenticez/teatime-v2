@@ -35,11 +35,12 @@ const state: RootState = {
 export enum StoreActions {
   REGISTER = 'register',
   LOGIN = 'login',
+  LOGOUT = 'logout',
 }
 
 export enum StoreMutation {
+  SET_USER = "setUser",
   LOGOUT = "logout",
-  SET_USER = "setUser"
 }
 
 // Create store
@@ -77,6 +78,19 @@ const store: VuexStore<RootState> = createStore({
         return data;
       } catch (error) {
         console.error('Login failed', error);
+        throw error;
+      }
+    },
+    async [StoreActions.LOGOUT]({ commit }) {
+      try {
+        await axiosClient.post('/logout')
+          .then((response) => {
+            commit('logout')
+            return response;
+          })
+      }
+      catch (error) {
+        console.error('Logout failed', error);
         throw error;
       }
     },

@@ -16,6 +16,14 @@
 
     <form class="space-y-6" @submit="login" method="POST">
 
+      <div v-if="errorMsg" class="flex items-center justify-between py-3 px-5 bg-red-500 text-white rounded">
+        {{errorMsg}}
+        <span @click="errorMsg=''">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-8 w-8 flex items-center justify-center rounded-full transition-colors cursor-pointer hover:bg-black/20 p-1">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+          </svg>
+        </span>
+      </div>
 
       <input 
         id="email"
@@ -53,10 +61,8 @@
       >
       </label>
 
+      <button type="submit" class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Sign in</button>
 
-      <div>
-        <button type="submit" class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Sign in</button>
-      </div>
     </form>
 
     <p class="mt-10 text-center text-sm text-gray-500">
@@ -74,7 +80,7 @@
 </template>
 
 <script setup>
-import { reactive } from "vue";
+import {ref, reactive } from "vue";
 import {useRouter} from "vue-router"
 import store, { StoreActions } from "../../store";
 
@@ -92,10 +98,7 @@ const autofill = () => {
   user.remember = true;
 };
 
-function test(e) {
-  e.preventDefault();
-  router.push({name: 'register'})
-}
+let errorMsg = ref('');
 
 function login(e){
   e.preventDefault();
@@ -105,7 +108,8 @@ function login(e){
       router.push({name: 'home'});
     })
     .catch((error) => {
-      console.error('Login failed', error);
+      // console.error('Login failed', error);
+      errorMsg.value = error.response.data.error
     });
 }
 
